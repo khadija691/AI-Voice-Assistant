@@ -14,26 +14,38 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    import traceback
 
-    audio = request.files["audio"]
+    try:
+        print("STEP 1")
 
-    os.makedirs("audio", exist_ok=True)
+        audio = request.files["audio"]
+        print("STEP 2")
 
-    audio_path = "audio/input.wav"
+        os.makedirs("audio", exist_ok=True)
 
-    audio.save(audio_path)
+        audio_path = "audio/input.wav"
+        audio.save(audio_path)
+        print("STEP 3")
 
-    text = speech_to_text(audio_path)
+        text = speech_to_text(audio_path)
+        print("STEP 4")
 
-    reply = ask_llm(text)
+        reply = ask_llm(text)
+        print("STEP 5")
 
-    audio_file = speak(reply)
+        speak(reply)
+        print("STEP 6")
 
-    return jsonify({
-        "text": text,
-        "reply": reply,
-        "audio": "/audio"
-    })
+        return jsonify({
+            "text": text,
+            "reply": reply,
+            "audio": "/audio"
+        })
+
+    except Exception:
+        print(traceback.format_exc())
+        return jsonify({"error": traceback.format_exc()}), 500
 
 
 @app.route("/audio")
