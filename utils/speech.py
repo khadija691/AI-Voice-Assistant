@@ -1,15 +1,30 @@
-from faster_whisper import WhisperModel
+import os
+from dotenv import load_dotenv
+import azure.cognitiveservices.speech as speechsdk
 
-# Load the model only once
-model = WhisperModel("base", device="cpu", compute_type="int8")
+load_dotenv()
+
+speech_key = os.getenv("AZURE_SPEECH_KEY")
+service_region = os.getenv("AZURE_SPEECH_REGION")
 
 
 def speech_to_text(audio_file):
-    segments, _ = model.transcribe(audio_file)
 
-    text = ""
+    speech_config = speechsdk.SpeechConfig(
+        subscription=speech_key,
+        region=service_region
+    )
 
-    for segment in segments:
-        text += segment.text + " "
+    audio_config = speechsdk.audio.AudioConfig(filename=audio_file)
 
-    return text.strip()
+    recognizer = speechsdk.SpeechRecognizer(
+        speech_config=speech_config,
+        audio_config=audio_config
+    )
+
+    result = recognizer.recognize_once()
+
+    if result.reason == speechsdk.ResultReason.RecognizedSpeech:
+        return result.text
+
+    return ""
