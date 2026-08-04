@@ -1,3 +1,5 @@
+import tempfile
+
 from flask import Flask, render_template, request, jsonify, send_file
 import os
 
@@ -22,11 +24,11 @@ def chat():
         audio = request.files["audio"]
         print("STEP 2")
 
-        os.makedirs("audio", exist_ok=True)
+        import tempfile
 
-        audio_path = "audio/input.wav"
-        audio.save(audio_path)
-        print("STEP 3")
+audio_path = os.path.join(tempfile.gettempdir(), "input.wav")
+audio.save(audio_path)
+print("STEP 3")
 
         text = speech_to_text(audio_path)
         print("Recognized:", text)
@@ -51,10 +53,14 @@ def chat():
         return jsonify({"error": traceback.format_exc()}), 500
 
 
+@import tempfile
+
 @app.route("/audio")
 def audio():
-    return send_file("audio/output.mp3", mimetype="audio/mpeg")
-
+    return send_file(
+        os.path.join(tempfile.gettempdir(), "output.mp3"),
+        mimetype="audio/mpeg"
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)

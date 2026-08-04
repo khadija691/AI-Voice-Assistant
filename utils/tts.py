@@ -7,9 +7,10 @@ load_dotenv()
 speech_key = os.getenv("AZURE_SPEECH_KEY")
 service_region = os.getenv("AZURE_SPEECH_REGION")
 
+import tempfile
+
 OUTPUT_FILE = os.path.join(
-    os.path.dirname(os.path.dirname(__file__)),
-    "audio",
+    tempfile.gettempdir(),
     "output.mp3"
 )
 
