@@ -1,65 +1,98 @@
 const micButton = document.getElementById("micButton");
+const status = document.getElementById("status");
+const userMessage = document.getElementById("userMessage");
+const aiMessage = document.getElementById("aiMessage");
 
-let recorder;
-let chunks = [];
-let recording = false;
+let mediaRecorder;
+let audioChunks = [];
+let isRecording = false;
 
-micButton.onclick = async () => {
+micButton.addEventListener("click", async () => {
 
-    if (!recording) {
+    if (!isRecording) {
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-            audio: true
-        });
+        try {
 
-        recorder = new MediaRecorder(stream);
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-        chunks = [];
+            mediaRecorder = new MediaRecorder(stream);
 
-        recorder.ondataavailable = e => {
-            chunks.push(e.data);
-        };
+            audioChunks = [];
 
-        recorder.onstop = async () => {
+            mediaRecorder.start();
 
-            const blob = new Blob(chunks, {
-                type: "audio/wav"
-            });
+            isRecording = true;
 
-            const form = new FormData();
+            micButton.innerHTML = "⏹ Stop Recording";
+            status.innerHTML = "🎤 Listening...";
 
-            form.append("audio", blob, "input.wav");
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
 
-            micButton.innerHTML = "🤖 Thinking...";
+            mediaRecorder.onstop = async () => {
 
-            const response = await fetch("/chat", {
-                method: "POST",
-                body: form
-            });
+                status.innerHTML = "🤖 Thinking...";
 
-            const data = await response.json();
+                const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
 
-            document.getElementById("userText").innerHTML = data.text;
+                const formData = new FormData();
+                formData.append("audio", audioBlob, "input.wav");
 
-            document.getElementById("botText").innerHTML = data.reply;
+                try {
 
-            new Audio("/audio?" + Date.now()).play();
+                    const response = await fetch("/chat", {
+                        method: "POST",
+                        body: formData
+                    });
 
-            micButton.innerHTML = "🎤 Start Conversation";
-        };
+                    const data = await response.json();
 
-        recorder.start();
+                    userMessage.style.display = "block";
+                    aiMessage.style.display = "block";
 
-        recording = true;
+                    userMessage.innerHTML = "👤 <b>You:</b><br>" + data.text;
+                    aiMessage.innerHTML = "🤖 <b>AI Voice Assistant :</b><br>" + data.reply;
 
-        micButton.innerHTML = "🔴 Stop Recording";
+                    status.innerHTML = "🔊 Speaking...";
 
-    } else {
+                    const audio = new Audio(data.audio + "?t=" + new Date().getTime());
 
-        recording = false;
+                    audio.play();
 
-        recorder.stop();
+                    audio.onended = () => {
+                        status.innerHTML = "✅ Ready for another question.";
+                    };
+
+                }
+
+                catch (err) {
+
+                    console.error(err);
+                    status.innerHTML = "❌ Error communicating with server.";
+
+                }
+
+            };
+
+        }
+
+        catch (err) {
+
+            alert("Please allow microphone access.");
+
+        }
 
     }
 
-};
+    else {
+
+        mediaRecorder.stop();
+
+        isRecording = false;
+
+        micButton.innerHTML = "🎤 Start Conversation";
+
+    }
+
+});

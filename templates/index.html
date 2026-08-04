@@ -7,15 +7,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nova AI Assistant</title>
+    <title>AI Voice Assistant</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
 
@@ -23,55 +17,31 @@
 
 <div class="container">
 
-    <header>
+    <h1>AI Voice Assistant</h1>
 
-        <div class="title">
+    <p class="subtitle">
+        Your intelligent voice assistant
+    </p>
 
-            <h1>🤖 Nova AI Assistant</h1>
+    <div class="orb"></div>
 
-            <p>Your Smart Voice Companion</p>
+    <button id="micButton">
+        🎤 Start Conversation
+    </button>
 
-        </div>
+    <div class="status" id="status">
 
-        <div class="status">
+        Waiting for your voice...
 
-            <span class="dot"></span>
+    </div>
 
-            Ready
+    <div class="chat-box">
 
-        </div>
+        <div class="message user" id="userMessage"></div>
 
-    </header>
+        <div class="message ai" id="aiMessage"></div>
 
-    <main>
-
-        <div class="chat-box">
-
-            <div class="message user">
-
-                <h3>👤 You</h3>
-
-                <p>Waiting for your voice...</p>
-
-            </div>
-
-            <div class="message bot">
-
-                <h3>🤖 Nova</h3>
-
-                <p>Hello! How can I help you today?</p>
-
-            </div>
-
-        </div>
-
-        <button id="micButton">
-
-            🎤 Start Conversation
-
-        </button>
-
-    </main>
+    </div>
 
 </div>
 
