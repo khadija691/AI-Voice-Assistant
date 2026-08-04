@@ -29,12 +29,15 @@ def chat():
         print("STEP 3")
 
         text = speech_to_text(audio_path)
+        print("Recognized:", text)
         print("STEP 4")
 
         reply = ask_llm(text)
+        print("Reply:", reply)
         print("STEP 5")
 
         speak(reply)
+        print("Speech finished")
         print("STEP 6")
 
         return jsonify({
