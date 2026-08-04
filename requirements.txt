@@ -13,9 +13,8 @@ cachetools==7.1.4
 certifi==2026.6.17
 cffi==2.1.0
 charset-normalizer==3.4.9
-click==8.4.2
+click==8.1.8
 colorama==0.4.6
-comtypes==1.4.16
 ctranslate2==4.8.1
 distro==1.9.0
 edge-tts==7.2.8
@@ -56,12 +55,10 @@ pycparser==3.0
 pydantic==2.13.4
 pydantic_core==2.46.4
 pydeck==0.9.3
-pypiwin32==223
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 python-multipart==0.0.32
 pyttsx3==2.99
-pywin32==312
 PyYAML==6.0.3
 referencing==0.37.0
 requests==2.34.2
