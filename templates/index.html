@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nova AI Assistant</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="title">
+
+            <h1>🤖 Nova AI Assistant</h1>
+
+            <p>Your Smart Voice Companion</p>
+
+        </div>
+
+        <div class="status">
+
+            <span class="dot"></span>
+
+            Ready
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <div class="chat-box">
+
+            <div class="message user">
+
+                <h3>👤 You</h3>
+
+                <p>Waiting for your voice...</p>
+
+            </div>
+
+            <div class="message bot">
+
+                <h3>🤖 Nova</h3>
+
+                <p>Hello! How can I help you today?</p>
+
+            </div>
+
+        </div>
+
+        <button id="micButton">
+
+            🎤 Start Conversation
+
+        </button>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>
